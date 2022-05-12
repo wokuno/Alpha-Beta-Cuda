@@ -25,8 +25,6 @@ int randomstrategy(int player, int * board) {
   return(r);
 }
 
-
-
 /* minmax is called to do a "ply" move lookahead, using
 evalfn (i.e., the utility function) to evaluate (terminal) boards at 
 the end of lookahead. Minmax starts by finding and simulating each legal 
@@ -43,7 +41,6 @@ Importantly, minmax assumes that ply >= 1.
 You are to modify minmax so that it exploits alphabeta pruning,
 and so that it randomly selects amongst the best moves for player.
 */
-
 
 int minmax (int player, int * board, int ply) {
   int i, max, ntm, newscore, bestmove, * moves, * newboard;
@@ -229,15 +226,11 @@ void othello (int algo, bool disp) {
   player = BLACK;
   if (algo == 0){
     do {
-      printf("\e[1;1H\e[2J");
       if (player == BLACK) getmove(maxdiffstrategy, BLACK, board, disp);
       else getmove(maxdiffstrategy, WHITE, board, disp);
       player = nexttoplay(board, player, disp);
     }
     while (player != 0);
-    // printf("The game is over. Final result:\n");
-    printf("[%c=%d %c=%d]\n", 
-        nameof(BLACK), count(BLACK, board), nameof(WHITE), count(WHITE, board));
   }
   if (algo == 1) {
       do {
@@ -246,9 +239,6 @@ void othello (int algo, bool disp) {
         player = nexttoplay(board, player, disp);
       }
       while (player != 0);
-      // printf("The game is over. Final result:\n");
-      printf("[%c=%d %c=%d]\n", 
-          nameof(BLACK), count(BLACK, board), nameof(WHITE), count(WHITE, board));
   }
   if (algo == 2) {
       do {
@@ -258,7 +248,6 @@ void othello (int algo, bool disp) {
       }
       while (player != 0);
   }
-  // printf("The game is over. Final result:\n");
 
   printf("[%c=%d %c=%d]\n", 
   nameof(BLACK), count(BLACK, board), nameof(WHITE), count(WHITE, board));
@@ -267,25 +256,22 @@ void othello (int algo, bool disp) {
 }
 
 int main (int argc, char** argv) {
-  // for (int i=1; i < 7; i++) {
-    counter = 5;
+  for (int i=1; i < 7; i++) {
+    counter = i;
     for(int j=0; j < 3; j++) {
-      // if (j == 0) {
-      //   printf("CPU-CPU Depth: %d \n", counter);
-      // } else if (j == 1) {
-      //   printf("CPU-GPU Depth: %d \n", counter);
-      // } else if (j == 2) {
-      //   printf("GPU-GPU Depth: %d \n", counter);
-      // }
+      if (j == 0) {
+        printf("CPU-CPU Depth: %d \n", counter);
+      } else if (j == 1) {
+        printf("CPU-GPU Depth: %d \n", counter);
+      } else if (j == 2) {
+        printf("GPU-GPU Depth: %d \n", counter);
+      }
 
       struct timeval start, end;
  
       gettimeofday(&start, NULL);
 
-      // for (int i = 0; i < 10; i++) {
-      //   othello(j);
-      // }
-      othello(j, 1);
+      othello(j, 0);
       
       gettimeofday(&end, NULL);
 
@@ -293,8 +279,8 @@ int main (int argc, char** argv) {
       long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
       float millis = ((float) micros) / 1000;
 
-      // printf("The elapsed time is %d seconds and %.2f millis\n", seconds, millis);
+      printf("The elapsed time is %.2f millis\n", millis);
     }
-  // }
+  }
   return 0;
 }
